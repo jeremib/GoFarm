@@ -2,6 +2,7 @@ package entities
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"time"
 )
@@ -10,17 +11,27 @@ type Ant struct {
 	Name	string
 	Health 	int
 	Hunger 	int
+	Age		int
 }
 
 func (a *Ant) Work() {
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 
-	h := (r1.Intn(13) + 1) * -1
+	r := r1.Intn(12)
+	m := float64(a.GetAge() - 100) / float64(100) * -1
+
+	h := int(math.Floor(float64(r) / float64(m)))
+
+	// w := r - int(math.Ceil(float64(r) - m))
+
+	// fmt.Printf("%v", w)
+
+	he := h * -1
 
 	// fmt.Printf("⚒\t%s\t%d\n", a.Name, h)
 
-	a.IncreaseHealth(h)
+	a.IncreaseHealth(he)
 }
 
 
@@ -60,12 +71,21 @@ func (a *Ant) IncreaseHealth(h int) {
 	}
 }
 
+
+func (a *Ant) IncreaseAge(h int) {
+	a.Age += h
+}
+
 func (a Ant) Die() {
 	fmt.Printf("💀\t%s", a.Name)
 }
 
+func (a Ant) GetAge() int {
+	return a.Age
+}
+
 func (a Ant) Info() {
-	fmt.Printf("\n%s\t🏥 %d\t🥕 %d\n", a.Name, a.Health, a.Hunger)
+	fmt.Printf("\n%s\t🏥 %d\t🥕 %d\t ❤️ %d\n", a.Name, a.Health, a.Hunger, a.GetAge())
 }
 
 func (a Ant) canFindFood() bool {

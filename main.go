@@ -5,7 +5,7 @@ package main
 import (
 	// "fmt"
 	"entities"
-	"runtime"
+	// "runtime"
 	"sync"
 	// "time"
 	// "math/rand"
@@ -16,11 +16,10 @@ import (
 
 
 func main() {
-	runtime.GOMAXPROCS(1)
-
 	ants := []entities.Ant{
-		{Name: "Jeremi", Health: 100, Hunger:100},
-		{Name: "Diane", Health: 100, Hunger:100},
+		{Name: "🐛", Health: 100, Hunger:100, Age: 1},
+		{Name: "🐜", Health: 100, Hunger:100, Age: 1},
+		{Name: "🐞", Health: 100, Hunger:100, Age: 1},
 	}
 
 	var wg sync.WaitGroup
@@ -35,7 +34,6 @@ func main() {
 }
 
 func birth(a entities.Ant, wg *sync.WaitGroup) {
-	// wg.Add(1)
 	defer wg.Done()
 
 	d := 0
@@ -46,11 +44,15 @@ func birth(a entities.Ant, wg *sync.WaitGroup) {
 		a.Sleep()
 
 		if ( a.Health <= 0 ) {
-			a.Die()
-		}
-		if ( d % 5000 == 0) {
+			// a.Die()
 			a.Info()
 		}
+
+		a.IncreaseAge(1)
+
+		// if ( d % 5000 == 0) {
+			// a.Info()
+		// }
 		d++
 	}
 }
